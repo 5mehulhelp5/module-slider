@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- cms -->
+    <type name="Magento\Cms\Model\Wysiwyg\Images\Storage">
+        <arguments>
+            <argument name="dirs" xsi:type="array">
+                <item name="exclude" xsi:type="array">
+                    <item name="mygentoslider_cache" xsi:type="array">
+                        <item name="regexp" xsi:type="boolean">true</item>
+                        <item name="name" xsi:type="string">media[/\\]+mygentoslider[/\\]+cache[/\\]*$</item>
+                    </item>
+                    <item name="mygentoslider_tmp" xsi:type="array">
+                        <item name="regexp" xsi:type="boolean">true</item>
+                        <item name="name" xsi:type="string">media[/\\]+mygentoslider[/\\]+tmp[/\\]*$</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- product slider -->
+    <type name="Mygento\Slider\Model\Catalog\Sorting">
+        <arguments>
+            <argument name="sortClasses" xsi:type="array">
+                <item name="position" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\Position</item>
+                <item name="position_by_sku" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\PositionBySku</item>
+                <item name="date_newest_top" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\Date\NewestTop</item>
+                <item name="date_oldest_top" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\Date\OldestTop</item>
+                <item name="name_ascending" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\Name\Ascending</item>
+                <item name="name_descending" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\Name\Descending</item>
+                <item name="sku_ascending" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\Sku\Ascending</item>
+                <item name="sku_descending" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\Sku\Descending</item>
+                <item name="price_high_to_low" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\Price\Descending</item>
+                <item name="price_low_to_high" xsi:type="string">Mygento\Slider\Model\Catalog\Sorting\Price\Ascending</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\Position" type="Mygento\Slider\Model\Catalog\Sorting\SimpleOption">
+        <arguments>
+            <argument name="label" xsi:type="string">Position</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_ASC</argument>
+            <argument name="secondarySortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_DESC</argument>
+            <argument name="attributeField" xsi:type="string">position</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\PositionBySku" type="Mygento\Slider\Model\Catalog\Sorting\SimpleOption">
+        <arguments>
+            <argument name="label" xsi:type="string">Position</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\Date\NewestTop" type="Mygento\Slider\Model\Catalog\Sorting\SimpleOption">
+        <arguments>
+            <argument name="label" xsi:type="string">Newest products first</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_DESC</argument>
+            <argument name="attributeField" xsi:type="string">entity_id</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\Date\OldestTop" type="Mygento\Slider\Model\Catalog\Sorting\SimpleOption">
+        <arguments>
+            <argument name="label" xsi:type="string">Oldest products first</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_ASC</argument>
+            <argument name="attributeField" xsi:type="string">entity_id</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\Name\Ascending" type="Mygento\Slider\Model\Catalog\Sorting\SimpleOption">
+        <arguments>
+            <argument name="label" xsi:type="string">Name: A - Z</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_ASC</argument>
+            <argument name="attributeField" xsi:type="string">name</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\Name\Descending" type="Mygento\Slider\Model\Catalog\Sorting\SimpleOption">
+        <arguments>
+            <argument name="label" xsi:type="string">Name: Z - A</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_DESC</argument>
+            <argument name="attributeField" xsi:type="string">name</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\Sku\Ascending" type="Mygento\Slider\Model\Catalog\Sorting\SimpleOption">
+        <arguments>
+            <argument name="label" xsi:type="string">SKU: ascending</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_ASC</argument>
+            <argument name="attributeField" xsi:type="string">sku</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\Sku\Descending" type="Mygento\Slider\Model\Catalog\Sorting\SimpleOption">
+        <arguments>
+            <argument name="label" xsi:type="string">SKU: descending</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_DESC</argument>
+            <argument name="attributeField" xsi:type="string">sku</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\Price\Descending" type="Mygento\Slider\Model\Catalog\Sorting\Price">
+        <arguments>
+            <argument name="label" xsi:type="string">Price: high to low</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_DESC</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\Catalog\Sorting\Price\Ascending" type="Mygento\Slider\Model\Catalog\Sorting\Price">
+        <arguments>
+            <argument name="label" xsi:type="string">Price: low to high</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_ASC</argument>
+        </arguments>
+    </virtualType>
+    
+    <!-- relations -->
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Mygento\Slider\Api\Data\SliderInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">mygento_slider</item>
+                    <item name="identifierField" xsi:type="string">id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Mygento\Slider\Api\Data\SliderInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="itemsReader" xsi:type="string">Mygento\Slider\Model\ResourceModel\Slider\Relation\Items\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="itemsReader" xsi:type="string">Mygento\Slider\Model\ResourceModel\Slider\Relation\Items\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="itemsReader" xsi:type="string">Mygento\Slider\Model\ResourceModel\Slider\Relation\Items\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- generated -->
+    <preference for="Mygento\Slider\Api\ProductSliderRepositoryInterface" type="Mygento\Slider\Model\ProductSliderRepository"/>
+    <preference for="Mygento\Slider\Api\SliderRepositoryInterface" type="Mygento\Slider\Model\SliderRepository"/>
+    <preference for="Mygento\Slider\Api\BannerRepositoryInterface" type="Mygento\Slider\Model\BannerRepository"/>
+    <preference for="Mygento\Slider\Api\Data\ProductSliderInterface" type="Mygento\Slider\Model\ProductSlider"/>
+    <preference for="Mygento\Slider\Api\Data\SliderInterface" type="Mygento\Slider\Model\Slider"/>
+    <preference for="Mygento\Slider\Api\Data\BannerInterface" type="Mygento\Slider\Model\Banner"/>
+    <preference for="Mygento\Slider\Api\Data\ProductSliderSearchResultsInterface" type="Mygento\Slider\Model\ProductSliderSearchResults"/>
+    <preference for="Mygento\Slider\Api\Data\SliderSearchResultsInterface" type="Mygento\Slider\Model\SliderSearchResults"/>
+    <preference for="Mygento\Slider\Api\Data\BannerSearchResultsInterface" type="Mygento\Slider\Model\BannerSearchResults"/>
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Mygento\Slider\Api\Data\ProductSliderInterface" xsi:type="string">Mygento\Slider\Api\ProductSliderRepositoryInterface</item>
+                <item name="Mygento\Slider\Api\Data\SliderInterface" xsi:type="string">Mygento\Slider\Api\SliderRepositoryInterface</item>
+                <item name="Mygento\Slider\Api\Data\BannerInterface" xsi:type="string">Mygento\Slider\Api\BannerRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Mygento\Slider\Model\SearchCriteria\ProductSliderFilterProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor">
+        <arguments>
+            <argument name="customFilters" xsi:type="array">
+                <item name="store_id" xsi:type="object">Mygento\Slider\Model\SearchCriteria\ProductSliderStoreFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\SearchCriteria\BannerFilterProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor">
+        <arguments>
+            <argument name="customFilters" xsi:type="array">
+                <item name="store_id" xsi:type="object">Mygento\Slider\Model\SearchCriteria\BannerStoreFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\SearchCriteria\ProductSliderCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">Mygento\Slider\Model\SearchCriteria\ProductSliderFilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\SearchCriteria\SliderCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mygento\Slider\Model\SearchCriteria\BannerCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">Mygento\Slider\Model\SearchCriteria\BannerFilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Mygento\Slider\Model\ProductSliderRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Mygento\Slider\Model\SearchCriteria\ProductSliderCollectionProcessor</argument>
+        </arguments>
+    </type>
+    <type name="Mygento\Slider\Model\SliderRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Mygento\Slider\Model\SearchCriteria\SliderCollectionProcessor</argument>
+        </arguments>
+    </type>
+    <type name="Mygento\Slider\Model\BannerRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Mygento\Slider\Model\SearchCriteria\BannerCollectionProcessor</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Mygento\Slider\Api\Data\ProductSliderInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">mygento_product_slider</item>
+                    <item name="identifierField" xsi:type="string">id</item>
+                </item>
+                <item name="Mygento\Slider\Api\Data\BannerInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">mygento_slider_banner</item>
+                    <item name="identifierField" xsi:type="string">id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Mygento\Slider\Api\Data\ProductSliderInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="storeReader" xsi:type="string">Mygento\Slider\Model\ResourceModel\ProductSlider\Relation\Store\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="storeCreator" xsi:type="string">Mygento\Slider\Model\ResourceModel\ProductSlider\Relation\Store\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="storeUpdater" xsi:type="string">Mygento\Slider\Model\ResourceModel\ProductSlider\Relation\Store\SaveHandler</item>
+                    </item>
+                </item>
+                <item name="Mygento\Slider\Api\Data\BannerInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="storeReader" xsi:type="string">Mygento\Slider\Model\ResourceModel\Banner\Relation\Store\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="storeCreator" xsi:type="string">Mygento\Slider\Model\ResourceModel\Banner\Relation\Store\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="storeUpdater" xsi:type="string">Mygento\Slider\Model\ResourceModel\Banner\Relation\Store\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Mygento\Slider\Api\Data\ProductSliderInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Mygento\Slider\Api\Data\BannerInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="slider_productslider_listing_data_source" xsi:type="string">Mygento\Slider\Model\ResourceModel\ProductSlider\Grid\Collection</item>
+                <item name="slider_slider_listing_data_source" xsi:type="string">Mygento\Slider\Model\ResourceModel\Slider\Grid\Collection</item>
+                <item name="slider_banner_listing_data_source" xsi:type="string">Mygento\Slider\Model\ResourceModel\Banner\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Mygento\Slider\Model\ResourceModel\ProductSlider\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mygento_product_slider</argument>
+            <argument name="eventPrefix" xsi:type="string">slider_productslider_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">product_slider_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Mygento\Slider\Model\ResourceModel\ProductSlider</argument>
+        </arguments>
+    </type>
+    <type name="Mygento\Slider\Model\ResourceModel\Slider\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mygento_slider</argument>
+            <argument name="eventPrefix" xsi:type="string">slider_slider_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">slider_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Mygento\Slider\Model\ResourceModel\Slider</argument>
+        </arguments>
+    </type>
+    <type name="Mygento\Slider\Model\ResourceModel\Banner\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mygento_slider_banner</argument>
+            <argument name="eventPrefix" xsi:type="string">slider_banner_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">banner_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Mygento\Slider\Model\ResourceModel\Banner</argument>
+        </arguments>
+    </type>
+</config>

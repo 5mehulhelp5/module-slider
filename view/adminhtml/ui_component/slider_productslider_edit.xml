@@ -1,0 +1,282 @@
+<?xml version="1.0"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">slider_productslider_edit.slider_productslider_edit_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save_and_continue" class="Mygento\Base\Block\Adminhtml\Component\Edit\SaveAndContinueButton"/>
+            <button name="save" class="Mygento\Base\Block\Adminhtml\Component\Edit\SaveButton"/>
+            <button name="reset" class="Mygento\Base\Block\Adminhtml\Component\Edit\ResetButton"/>
+            <button name="delete" class="Mygento\Base\Block\Adminhtml\Component\Edit\DeleteButton"/>
+            <button name="back" class="Mygento\Base\Block\Adminhtml\Component\Edit\BackButton"/>
+        </buttons>
+        <namespace>slider_productslider_edit</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>slider_productslider_edit.slider_productslider_edit_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="slider_productslider_edit_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="slider/productslider/save"/>
+        </settings>
+        <dataProvider name="slider_productslider_edit_data_source" class="Mygento\Slider\Model\ProductSlider\DataProvider">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label>General</label>
+        </settings>
+        <field name="id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">productslider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Id</label>
+                <visible>false</visible>
+                <dataScope>id</dataScope>
+            </settings>
+        </field>
+        <field name="identity" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">productslider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Identity</label>
+                <visible>true</visible>
+                <dataScope>identity</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="no-marginal-whitespace" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="title" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">productslider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Title</label>
+                <visible>true</visible>
+                <dataScope>title</dataScope>
+            </settings>
+        </field>
+        <field name="is_active" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">productslider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Is Active</label>
+                <visible>true</visible>
+                <dataScope>is_active</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="store_id" formElement="multiselect" class="Magento\Store\Ui\Component\Form\Field\StoreView">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">productslider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>int</dataType>
+                <label translate="true">Store Id</label>
+                <visible>true</visible>
+                <dataScope>store_id</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Magento\Store\Ui\Component\Listing\Column\Store\Options"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+    </fieldset>
+    <fieldset name="parameters">
+        <settings>
+            <label>Parameters</label>
+            <dataScope>parameters</dataScope>
+        </settings>
+        <field name="products_count" sortOrder="10" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="number">5</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>number</dataType>
+                <label translate="true">Number of Products to Display</label>
+                <additionalClasses>
+                    <class name="admin__field-small">true</class>
+                </additionalClasses>
+                <dataScope>products_count</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="less-than-equals-to" xsi:type="number">999</rule>
+                    <rule name="greater-than-equals-to" xsi:type="number">1</rule>
+                </validation>
+            </settings>
+        </field>
+        <container name="breakpoints">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/dynamic-rows</item>
+                    <item name="componentType" xsi:type="string">dynamicRows</item>
+                    <item name="label" xsi:type="string" translate="true">Breakpoints</item>
+                    <item name="addButtonLabel" xsi:type="string" translate="true">Add Breakpoint</item>
+                    <item name="defaultRecord" xsi:type="boolean">false</item>
+                    <item name="dndConfig" xsi:type="array">
+                        <item name="enabled" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="recordTemplate" xsi:type="string">record</item>
+                    <item name="template" xsi:type="string">ui/dynamic-rows/templates/default</item>
+                </item>
+            </argument>
+            <container name="record" component="Magento_Ui/js/dynamic-rows/record">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="isTemplate" xsi:type="boolean">true</item>
+                        <item name="is_collection" xsi:type="boolean">true</item>
+                        <item name="showFallbackReset" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+                <field name="width" formElement="input">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Breakpoint Width (px)</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                                <item name="greater-than-equals-to" xsi:type="number">1</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+                <field name="per_page" formElement="input">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Slides Per Page</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                                <item name="greater-than-equals-to" xsi:type="number">1</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+                <field name="destroy" formElement="checkbox">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Destroy Carousel</item>
+                            <item name="dataType" xsi:type="string">boolean</item>
+                            <item name="formElement" xsi:type="string">checkbox</item>
+                            <item name="prefer" xsi:type="string">toggle</item>
+                            <item name="valueMap" xsi:type="array">
+                                <item name="true" xsi:type="string">true</item>
+                                <item name="false" xsi:type="string">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+                <actionDelete name="actionDelete" component="Magento_Ui/js/dynamic-rows/action-delete" template="ui/dynamic-rows/cells/action-delete">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label>Action</label>
+                        <componentType>actionDelete</componentType>
+                    </settings>
+                </actionDelete>
+            </container>
+        </container>
+        <htmlContent name="conditions_form" sortOrder="50" template="Mygento_Slider/form/element/widget-conditions" component="Mygento_Slider/js/form/element/html">
+            <settings>
+                <visible>true</visible>
+                <dataScope>conditions_form</dataScope>
+                <additionalClasses>
+                    <class name="admin__field">true</class>
+                </additionalClasses>
+            </settings>
+            <block name="conditions_form" class="Mygento\Slider\Block\Adminhtml\Form\Element\ProductConditions">
+                <arguments>
+                    <argument name="formNamespace" xsi:type="string">slider_productslider_edit</argument>
+                    <argument name="attribute" xsi:type="string">condition_source</argument>
+                    <argument name="label" xsi:type="string" translate="true">Condition</argument>
+                </arguments>
+            </block>
+        </htmlContent>
+        <field name="sort_order" sortOrder="60" formElement="select" component="Mygento_Slider/js/form/element/select-filtered-options">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">position</item>
+                    <item name="excludeOptions" xsi:type="array">
+                        <item name="condition" xsi:type="string">position,position_by_sku</item>
+                        <item name="sku" xsi:type="string">position</item>
+                        <item name="category_ids" xsi:type="string">position_by_sku</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Sort By</label>
+                <dataScope>sort_order</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Mygento\Slider\Model\Catalog\Sorting\Options"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+    <fieldset name="options" class="Mygento\Slider\Ui\Component\Form\Slider\ProductOptions">
+        <settings>
+            <label translate="true">Options</label>
+            <dataScope>options</dataScope>
+        </settings>
+    </fieldset>
+</form>

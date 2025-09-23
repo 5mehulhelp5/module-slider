@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">slider_slider_edit.slider_slider_edit_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save_and_continue" class="Mygento\Base\Block\Adminhtml\Component\Edit\SaveAndContinueButton"/>
+            <button name="save" class="Mygento\Base\Block\Adminhtml\Component\Edit\SaveButton"/>
+            <button name="reset" class="Mygento\Base\Block\Adminhtml\Component\Edit\ResetButton"/>
+            <button name="delete" class="Mygento\Base\Block\Adminhtml\Component\Edit\DeleteButton"/>
+            <button name="back" class="Mygento\Base\Block\Adminhtml\Component\Edit\BackButton"/>
+        </buttons>
+        <namespace>slider_slider_edit</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>slider_slider_edit.slider_slider_edit_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="slider_slider_edit_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="slider/slider/save"/>
+        </settings>
+        <dataProvider name="slider_slider_edit_data_source" class="Mygento\Slider\Model\Slider\DataProvider">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label>General</label>
+        </settings>
+        <field name="id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">slider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Id</label>
+                <visible>false</visible>
+                <dataScope>id</dataScope>
+            </settings>
+        </field>
+        <field name="is_active" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">slider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Is Active</label>
+                <visible>true</visible>
+                <dataScope>active</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="identity" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">slider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Identity</label>
+                <visible>true</visible>
+                <dataScope>identity</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="no-marginal-whitespace" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="title" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">slider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Title</label>
+                <visible>true</visible>
+                <dataScope>title</dataScope>
+            </settings>
+        </field>
+        <field name="from_date" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">slider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">From Date</label>
+                <visible>true</visible>
+                <dataScope>from_date</dataScope>
+                <validation>
+                    <rule name="validate-date" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="to_date" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">slider</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">To Date</label>
+                <visible>true</visible>
+                <dataScope>to_date</dataScope>
+                <validation>
+                    <rule name="validate-date" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="items">
+        <settings>
+            <label>Slider Banners</label>
+            <collapsible>false</collapsible>
+        </settings>
+        <container template="ui/form/components/complex">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string"/>
+                    <item name="content" xsi:type="string" translate="true">Some Banner Text</item>
+                </item>
+            </argument>
+            <button>
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="actions" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="targetName" xsi:type="string">slider_slider_edit.slider_slider_edit.items.slider_items_modal</item>
+                                <item name="actionName" xsi:type="string">openModal</item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="targetName" xsi:type="string">slider_slider_edit.slider_slider_edit.items.slider_items_modal.slider_slider_banners</item>
+                                <item name="actionName" xsi:type="string">render</item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <title translate="true">Add Banners to Slider</title>
+                </settings>
+            </button>
+        </container>
+        <modal name="slider_items_modal">
+            <settings>
+                <options>
+                    <option name="title" xsi:type="string">Add Banners to Slider</option>
+                    <option name="buttons" xsi:type="array">
+                        <item name="0" xsi:type="array">
+                            <item name="text" xsi:type="string">Cancel</item>
+                            <item name="actions" xsi:type="array">
+                                <item name="0" xsi:type="string">actionCancel</item>
+                            </item>
+                        </item>
+                        <item name="1" xsi:type="array">
+                            <item name="text" xsi:type="string">Add Selected</item>
+                            <item name="class" xsi:type="string">action-primary</item>
+                            <item name="actions" xsi:type="array">
+                                <item name="0" xsi:type="array">
+                                    <item name="targetName" xsi:type="string">index = slider_slider_banners</item>
+                                    <item name="actionName" xsi:type="string">save</item>
+                                </item>
+                                <item name="1" xsi:type="string">closeModal</item>
+                            </item>
+                        </item>
+                    </option>
+                </options>
+            </settings>
+            <insertListing name="slider_slider_banners">
+                <settings>
+                    <autoRender>false</autoRender>
+                    <dataScope>slider_slider_banners</dataScope>
+                    <ns>slider_slider_banners</ns>
+                    <realTimeLink>true</realTimeLink>
+                    <externalProvider>slider_slider_banners.slider_banner_listing_data_source</externalProvider>
+                    <selectionsProvider>slider_slider_banners.slider_slider_banners.slider_slider_banners_columns.ids</selectionsProvider>
+                    <dataLinks>
+                        <imports>false</imports>
+                        <exports>true</exports>
+                    </dataLinks>
+                    <behaviourType>simple</behaviourType>
+                    <externalFilterMode>true</externalFilterMode>
+                    <imports>
+                        <link name="id">${ $.provider }:data.id</link>
+                    </imports>
+                    <exports>
+                        <link name="id">${ $.externalProvider }:params.id</link>
+                    </exports>
+                </settings>
+            </insertListing>
+        </modal>
+        <dynamicRows name="slider_items" component="Magento_Ui/js/dynamic-rows/dynamic-rows-grid" template="ui/dynamic-rows/templates/grid">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsHeaderAfterRender" xsi:type="boolean">true</item>
+                    <item name="renderDefaultRecord" xsi:type="boolean">false</item>
+                    <item name="deleteButtonLabel" xsi:type="string">Remove</item>
+                    <item name="dataProvider" xsi:type="string">data.slider_slider_banners</item>
+                    <item name="identificationDRProperty" xsi:type="string">id</item>
+                    <item name="map" xsi:type="array">
+                        <item name="id" xsi:type="string">id</item>
+                        <item name="is_active" xsi:type="string">is_active</item>
+                        <item name="name" xsi:type="string">name</item>
+                        <item name="from_date" xsi:type="string">from_date</item>
+                        <item name="to_date" xsi:type="string">to_date</item>
+                        <item name="image" xsi:type="string">image</item>
+                        <item name="small_image" xsi:type="string">small_image</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <additionalClasses>
+                    <class name="admin__field-wide">true</class>
+                </additionalClasses>
+                <columnsHeader>false</columnsHeader>
+                <recordTemplate>record</recordTemplate>
+                <links>
+                    <link name="insertData">${ $.provider }:${ $.dataProvider }</link>
+                </links>
+                <addButton>false</addButton>
+                <componentType>dynamicRows</componentType>
+                <dndConfig>
+                    <param name="enabled" xsi:type="boolean">true</param>
+                </dndConfig>
+                <identificationProperty>id</identificationProperty>
+                <deleteProperty>delete</deleteProperty>
+            </settings>
+            <container name="record" component="Magento_Ui/js/dynamic-rows/record">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="componentType" xsi:type="string">container</item>
+                        <item name="isTemplate" xsi:type="boolean">true</item>
+                        <item name="is_collection" xsi:type="boolean">true</item>
+                    </item>
+                </argument>
+                <field name="id" component="Magento_Ui/js/form/element/text" formElement="input">
+                    <settings>
+                        <label translate="true">ID</label>
+                        <dataType>text</dataType>
+                        <elementTmpl>ui/dynamic-rows/cells/text</elementTmpl>
+                    </settings>
+                </field>
+                <field name="name" component="Magento_Ui/js/form/element/text" formElement="input">
+                    <settings>
+                        <label translate="true">Name</label>
+                        <dataType>text</dataType>
+                        <elementTmpl>ui/dynamic-rows/cells/text</elementTmpl>
+                    </settings>
+                </field>
+                <field name="from_date" component="Magento_Ui/js/form/element/date" formElement="input">
+                    <settings>
+                        <label translate="true">Start Date</label>
+                        <dataType>date</dataType>
+                        <elementTmpl>ui/dynamic-rows/cells/text</elementTmpl>
+                    </settings>
+                </field>
+                <field name="to_date" component="Magento_Ui/js/form/element/date" formElement="input">
+                    <settings>
+                        <label translate="true">End Date</label>
+                        <dataType>date</dataType>
+                        <elementTmpl>ui/dynamic-rows/cells/text</elementTmpl>
+                    </settings>
+                </field>
+                <field name="is_active" component="Magento_Ui/js/form/element/text" formElement="input">
+                    <settings>
+                        <label translate="true">Status</label>
+                        <dataType>text</dataType>
+                        <elementTmpl>ui/dynamic-rows/cells/text</elementTmpl>
+                    </settings>
+                </field>
+                <field name="position">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="visible" xsi:type="boolean">false</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">hidden</item>
+                        </item>
+                    </argument>
+                </field>
+                <actionDelete>
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="fit" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <additionalClasses>
+                            <class name="data-grid-actions-cell">true</class>
+                        </additionalClasses>
+                        <dataType>text</dataType>
+                        <label>Actions</label>
+                        <componentType>actionDelete</componentType>
+                    </settings>
+                </actionDelete>
+            </container>
+        </dynamicRows>
+    </fieldset>
+    <fieldset name="options" class="Mygento\Slider\Ui\Component\Form\Slider\BannerOptions">
+        <settings>
+            <label translate="true">Options</label>
+            <dataScope>options</dataScope>
+        </settings>
+    </fieldset>
+</form>

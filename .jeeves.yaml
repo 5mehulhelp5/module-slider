@@ -1,0 +1,89 @@
+Mygento:
+  Slider:
+    settings:
+      admin_route: mygentoslider
+      php_version: 8.1
+    entities:
+      ProductSlider:
+        tablename: mygento_product_slider
+        api: true
+        per_store: true
+        columns:
+          id:
+            type: int
+            pk: true
+            identity: true
+            unsigned: true
+            comment: "Product Slider ID"
+          identity:
+            type: varchar
+            nullable: false
+          title:
+            type: varchar
+          is_active:
+            type: boolean
+            default: 0
+          conditions:
+            type: varchar
+            nullable: false
+          options:
+            type: json
+        indexes:
+          IX_MYG_PL_ID:
+            type: "unique"
+            columns: ["identity"]
+      Slider:
+        tablename: mygento_slider
+        api: true
+        columns:
+          id:
+            type: int
+            pk: true
+            identity: true
+            unsigned: true
+            comment: "Slider ID"
+          is_active:
+            type: boolean
+            default: 0
+          identity:
+            type: varchar
+            nullable: false
+          title:
+            type: varchar
+          from_date:
+            type: date
+          to_date:
+            type: date
+          options:
+            type: json
+            nullable: false
+        indexes:
+          IX_MYG_SL_ID:
+            type: "unique"
+            columns: ["identity"]
+      Banner:
+        api: true
+        per_store: true
+        columns:
+          id:
+            type: int
+            pk: true
+            identity: true
+            unsigned: true
+            comment: "Banner ID"
+          is_active:
+            type: boolean
+            default: 0
+          name:
+            type: varchar
+          from_date:
+            type: date
+          to_date:
+            type: date
+          link:
+            type: varchar
+          image:
+            type: varchar
+            nullable: false
+          small_image:
+            type: varchar

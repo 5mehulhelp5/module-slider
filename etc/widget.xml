@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Mygento\Slider\Block\BannerSlider" id="mygento_banner_slider_widget">
+        <label translate="true">Mygento Banner Slider</label>
+        <description translate="true">Mygento Banner Slider</description>
+        <parameters>
+            <parameter name="banner_slider" sort_order="10" required="true" visible="true" xsi:type="select" source_model="Mygento\Slider\Model\Config\Source\BannerSliderList">
+                <label>Select Banner Slider</label>
+            </parameter>
+        </parameters>
+    </widget>
+    <widget class="Mygento\Slider\Block\ProductSlider" id="mygento_banner_slider_product_widget">
+        <label translate="true">Mygento Product Slider</label>
+        <description translate="true">Mygento Product Slider</description>
+        <parameters>
+            <parameter name="product_slider" sort_order="10" required="true" visible="true" xsi:type="select" source_model="Mygento\Slider\Model\Config\Source\ProductSliderList">
+                <label>Select Product Slider</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

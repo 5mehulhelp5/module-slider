@@ -1,0 +1,96 @@
+<?php
+/** @var \Mygento\Slider\Block\BannerSlider $block */
+/** @var \Magento\Framework\Escaper $escaper */
+$images = $block->getImages();
+$options = $block->getOptions();
+$breakpoint = $options['breakpoint'] ?? 1024;
+$lazy = $options['lazyLoad'] ?? false;
+$width = $block->getIntegerOption($options, 'width');
+$height = $block->getIntegerOption($options, 'height');
+$widthS = $block->getIntegerOption($options, 'width_small');
+$heightS = $block->getIntegerOption($options, 'height_small');
+
+$widthTag = $width !== null ? ' width="' . $width . '"' : '';
+$heightTag = $height !== null ? ' height="' . $height . '"' : '';
+
+$widthSTag = $widthS !== null ? ' width="' . $widthS . '"' : '';
+$heightSTag = $heightS !== null ? ' height="' . $heightS . '"' : '';
+?>
+<?php if (count($images) === 1): ?>
+<div id="<?= $block->getSliderIdentifier() ?>" aria-label="<?= $block->getTitle() ?>">
+<?php foreach ($images as $img): ?>
+<?php $hasLink = isset($img['link']) &&  '' !== trim($img['link']); ?>
+<?php if ($hasLink): ?>
+<a href="<?= $escaper->escapeUrl($img['link']) ?>">
+<?php endif; ?>
+    <picture>
+<?php foreach ($img['formats'] as $type => $item): ?>
+<?php
+    $hasSmall = isset($item['small_image']) && !empty($item['small_image']);
+    $mq = $hasSmall ? ' media="(min-width: ' . $breakpoint . 'px)"' : '';
+    $mqS = $hasSmall ? ' media="(max-width: ' . ($breakpoint - 1) . 'px)"' : '';
+    ?>
+        <source<?= $widthTag ?><?= $heightTag ?><?= $mq ?> srcset="<?= $block->createSrcSet($item['image']) ?>" type="image/<?= $type ?>" />
+<?php if ($hasSmall): ?>
+        <source<?= $widthSTag ?><?= $heightSTag ?><?= $mqS ?> srcset="<?= $block->createSrcSet($item['small_image']) ?>" type="image/<?= $type ?>" />
+<?php endif; ?>
+<?php endforeach; ?>
+        <img alt="<?= $img['name']?>" src="<?= $img['default'] ?>" fetchpriority="<?= $lazy ? 'low' : 'high' ?>"<?= $lazy ? ' loading="lazy"' : '' ?><?= $widthTag ?><?= $heightTag ?> />
+    </picture>
+<?php if ($hasLink): ?>
+</a>
+<?php endif; ?>
+</div>
+<?php endforeach; ?>
+<?php endif; ?>
+<?php if (count($images) > 1): ?>
+<section class="splide" id="<?= $block->getSliderIdentifier() ?>" aria-label="<?= $block->getTitle() ?>">
+    <div class="splide__track">
+        <ul class="splide__list">
+<?php foreach ($images as $index => $img): ?>
+<?php $hasLink = isset($img['link']) &&  '' !== trim($img['link']); ?>
+            <li class="splide__slide">
+<?php if ($hasLink): ?>
+                <a href="<?= $escaper->escapeUrl($img['link']) ?>">
+<?php endif; ?>
+                <picture>
+<?php foreach ($img['formats'] as $type => $item): ?>
+<?php
+    $hasSmall = isset($item['small_image']) && !empty($item['small_image']);
+    $mq = $hasSmall ? ' media="(min-width: ' . $breakpoint . 'px)"' : '';
+    $mqS = $hasSmall ? ' media="(max-width: ' . ($breakpoint - 1) . 'px)"' : '';
+    ?>
+                    <source<?= $widthTag ?><?= $heightTag ?><?= $mq ?> srcset="<?= $block->createSrcSet($item['image']) ?>" type="image/<?= $type ?>" />
+<?php if ($hasSmall): ?>
+                    <source<?= $widthSTag ?><?= $heightSTag ?><?= $mqS ?> srcset="<?= $block->createSrcSet($item['small_image']) ?>" type="image/<?= $type ?>" />
+<?php endif; ?>
+<?php endforeach; ?>
+                    <img alt="<?= $img['name']?>" src="<?= $img['default'] ?>" fetchpriority="<?= ($lazy || $index !== 0) ? 'low' : 'high' ?>"<?= ($lazy || $index !== 0) ? ' loading="lazy"' : '' ?><?= $widthTag ?><?= $heightTag ?> />
+                </picture>
+<?php if ($hasLink): ?>
+                </a>
+<?php endif; ?>
+            </li>
+<?php endforeach; ?>
+        </ul>
+    </div>
+</section>
+<?php if (count($images) > 1): ?>
+<script type="text/x-magento-init">
+{
+    "#<?= $block->getSliderIdentifier() ?>": {
+        "Mygento_Slider/js/banner_slider": {
+            "arrows": <?= ($options['arrows'] ?? true) ? 'true' : 'false' ?>,
+            "autoplay": <?= ($options['autoplay'] ?? true) ? 'true' : 'false' ?>,
+            "pagination": <?= ($options['dots'] ?? true) ? 'true' : 'false' ?>,
+            "interval": <?= (int) ($options['autoplay_interval'] ?? 4000) ?>,
+            "perPage": <?= (int) ($options['per_page'] ?? 1) ?>,
+            "type": "<?= ($options['infinite'] ?? true) ? 'loop' : 'slide' ?>"
+        }
+    }
+}
+</script>
+<?php
+endif;
+endif;
+?>

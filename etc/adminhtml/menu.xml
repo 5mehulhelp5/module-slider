@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mygento_Slider::root" title="Banner Sliders" translate="title" module="Mygento_Slider" sortOrder="90" parent="Magento_Backend::content" resource="Mygento_Slider::root"/>
+        <add id="Mygento_Slider::banner" title="Manage Banners" translate="title" module="Mygento_Slider" sortOrder="90" parent="Mygento_Slider::root" action="mygentoslider/banner" resource="Mygento_Slider::banner"/>
+        <add id="Mygento_Slider::slider" title="Manage Banner Sliders" translate="title" module="Mygento_Slider" sortOrder="90" parent="Mygento_Slider::root" action="mygentoslider/slider" resource="Mygento_Slider::slider"/>
+        <add id="Mygento_Slider::productslider" title="Manage Product Sliders" translate="title" module="Mygento_Slider" sortOrder="90" parent="Mygento_Slider::root" action="mygentoslider/productslider" resource="Mygento_Slider::productslider"/>
+    </menu>
+</config>

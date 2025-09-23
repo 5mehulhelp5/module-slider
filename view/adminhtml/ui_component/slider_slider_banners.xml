@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">slider_slider_banners.slider_banner_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>slider_slider_banners_columns</spinner>
+        <deps>
+            <dep>slider_slider_banners.slider_banner_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="slider_banner_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Mygento_Slider::banner</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="slider_banner_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <filterSearch name="name"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="slider_slider_banners_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="id">
+            <settings>
+                <filter>textRange</filter>
+                <dataType>text</dataType>
+                <label translate="true">Id</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="is_active" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <editor>
+                    <editorType>select</editorType>
+                </editor>
+                <label translate="true">Is Active</label>
+                <options class="Magento\Config\Model\Config\Source\Yesno"/>
+            </settings>
+        </column>
+        <column name="name">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <editor>
+                    <editorType>text</editorType>
+                </editor>
+                <label translate="true">Name</label>
+            </settings>
+        </column>
+        <column name="from_date" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <timezone>false</timezone>
+                <dateFormat>MMM d, y</dateFormat>
+                <editor>
+                    <editorType>date</editorType>
+                </editor>
+                <label translate="true">From Date</label>
+            </settings>
+        </column>
+        <column name="to_date" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <timezone>false</timezone>
+                <dateFormat>MMM d, y</dateFormat>
+                <editor>
+                    <editorType>date</editorType>
+                </editor>
+                <label translate="true">To Date</label>
+            </settings>
+        </column>
+        <column name="image" component="Magento_Ui/js/grid/columns/thumbnail" class="Mygento\Slider\Ui\Component\Listing\Columns\Image">
+            <settings>
+                <sortable>false</sortable>
+                <label translate="true">Image</label>
+                <hasPreview>1</hasPreview>
+            </settings>
+        </column>
+        <column name="small_image" component="Magento_Ui/js/grid/columns/thumbnail" class="Mygento\Slider\Ui\Component\Listing\Columns\Image">
+            <settings>
+                <sortable>false</sortable>
+                <label translate="true">Small Image</label>
+                <hasPreview>1</hasPreview>
+            </settings>
+        </column>
+        <column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store">
+            <settings>
+                <label translate="true">Store View</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+    </columns>
+</listing>

@@ -1,0 +1,160 @@
+<?php
+use Magento\Catalog\Block\Product\ReviewRendererInterface;
+use Magento\Catalog\Helper\Product\Compare;
+use Magento\Framework\App\Action\Action;
+use Magento\Wishlist\Helper\Data;
+
+/** @var \Mygento\Slider\Block\ProductSlider $block */
+/** @var \Magento\Framework\Escaper $escaper */
+$items = $block->getCollection();
+$sliderOptions = $block->getOptions();
+$showWishlist = true;
+$showCompare = true;
+$showCart = true;
+$templateType = ReviewRendererInterface::SHORT_VIEW;
+$description = false;
+$lazy = $sliderOptions['options']['lazyLoad'] ?? false;
+$perPage = (int) ($sliderOptions['options']['per_page'] ?? 4);
+$breakpoints = array_reduce(
+    $sliderOptions['parameters']['breakpoints'] ?? [],
+    function ($carry, $br) {
+        $carry[$br['width']] = ['perPage' => (int) $br['per_page']];
+        if (isset($br['destroy']) && $br['destroy'] === 'true') {
+            $carry[$br['width']]['destroy'] = true;
+        }
+
+        return $carry;
+    },
+    [],
+);
+
+$breakpoints = empty($breakpoints) ? null : json_encode($breakpoints);
+?>
+<?php if ($items->getSize() > 0): ?>
+<section id="<?= $block->getProductSliderIdentifier() ?>" aria-label="<?= $block->getTitle() ?>" class="splide block widget">
+    <div class="splide__track products-grid">
+        <ul class="splide__list">
+<?php
+$i = 0;
+    foreach ($items as $product): ?>
+<?php
+        $sizes = $block->getSizes($product);
+        $width = $sizes['width'] ?? null;
+        $height = $sizes['height'] ?? null;
+        $widthTag = $width !== null ? ' width="' . $width . '"' : '';
+        $heightTag = $height !== null ? ' height="' . $height . '"' : '';
+        ?>
+            <li class="splide__slide product-item">
+                <div class="product-item-info">
+                    <a href="<?= $escaper->escapeUrl($block->getProductUrl($product)) ?>" class="product-item-photo">
+<?php $img = $block->getImageData($product) ?>
+                        <picture>
+<?php foreach ($img['formats'] as $type => $item): ?>
+                            <source<?= $widthTag ?><?= $heightTag ?> srcset="<?= $block->createSrcSet($item['image']) ?>" type="image/<?= $type ?>" />
+<?php endforeach; ?>
+                            <img alt="<?= $escaper->escapeHtml($product->getName()) ?>" src="<?= $img['default'] ?>" fetchpriority="<?= ($lazy || $i >= $perPage) ? 'low' : 'auto' ?>"<?= ($lazy || $i >= $perPage) ? ' loading="lazy"' : '' ?><?= $widthTag ?><?= $heightTag ?> />
+                        </picture>
+                    </a>
+                    <div class="product-item-details">
+                        <strong class="product-item-name">
+                            <a title="<?= $escaper->escapeHtml($product->getName()) ?>"
+                               href="<?= $escaper->escapeUrl($block->getProductUrl($product)) ?>"
+                               class="product-item-link">
+                                <?= $escaper->escapeHtml($product->getName()) ?>
+                            </a>
+                        </strong>
+                        <?php if ($templateType): ?><?= $block->getReviewsSummaryHtml($product, $templateType) ?><?php endif; ?>
+                        <?= $block->getProductPriceHtml($product) ?><?= $block->getProductDetailsHtml($product) ?>
+                        <?php if ($showWishlist || $showCompare || $showCart): ?>
+                            <div class="product-item-inner">
+                                <div class="product-item-actions">
+                                    <?php if ($showCart): ?>
+                                        <div class="actions-primary">
+                                            <?php if ($product->isSaleable()): ?>
+                                                <?php $postParams = $block->getAddToCartPostParams($product); ?>
+                                                <form data-role="tocart-form" data-product-sku="<?= $escaper->escapeHtml($product->getSku()) ?>" action="<?= $escaper->escapeUrl($postParams['action']) ?>" method="post">
+                                                    <?php $options = $block->getOptionsData($product) ?? []; ?>
+                                                    <?php foreach ($options as $optionItem): ?>
+                                                        <input type="hidden"
+                                                               name="<?= $escaper->escapeHtml($optionItem['name']) ?>"
+                                                               value="<?= $escaper->escapeHtml($optionItem['value']) ?>">
+                                                    <?php endforeach; ?>
+                                                    <input type="hidden" name="product" value="<?= $escaper->escapeHtmlAttr($postParams['data']['product']) ?>">
+                                                    <input type="hidden" name="<?= /* @noEscape */ Action::PARAM_NAME_URL_ENCODED ?>" value="<?= /* @noEscape */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED] ?>">
+                                                    <?= $block->getBlockHtml('formkey') ?>
+                                                    <button type="submit"
+                                                            title="<?= $escaper->escapeHtml(__('Add to Cart')) ?>"
+                                                            class="action tocart primary">
+                                                        <span><?= $escaper->escapeHtml(__('Add to Cart')) ?></span>
+                                                    </button>
+                                                </form>
+                                                <?php if ($block->getBlockHtml('formkey')): ?>
+                                                <script type="text/x-magento-init">
+                                                {
+                                                    "[data-role=tocart-form], .form.map.checkout": {
+                                                        "catalogAddToCart": {
+                                                            "product_sku": "<?= $escaper->escapeJs($product->getSku()); ?>"
+                                                        }
+                                                    }
+                                                }
+                                                </script>
+                                                <?php endif;?>
+                                            <?php else: ?>
+                                                <?php if ($product->isAvailable()): ?>
+                                                    <div class="stock available"><span><?= $escaper->escapeHtml(__('In stock')) ?></span></div>
+                                                <?php else: ?>
+                                                    <div class="stock unavailable"><span><?= $escaper->escapeHtml(__('Out of stock')) ?></span></div>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if ($showWishlist || $showCompare): ?>
+                                        <div class="actions-secondary" data-role="add-to-links">
+                                            <?php if ($this->helper(Data::class)->isAllow() && $showWishlist): ?>
+                                                <a href="#"
+                                                   data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($product) ?>' class="action towishlist" data-action="add-to-wishlist" title="<?= $escaper->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                                    <span><?= $escaper->escapeHtml(__('Add to Wish List')) ?></span>
+                                                </a>
+                                            <?php endif; ?>
+                                            <?php if ($block->getAddToCompareUrl() && $showCompare): ?>
+                                                <?php $compareHelper = $this->helper(Compare::class);?>
+                                                <a href="#" class="action tocompare" data-post='<?= /* @noEscape */ $compareHelper->getPostDataParams($product) ?>' title="<?= $escaper->escapeHtmlAttr(__('Add to Compare')) ?>">
+                                                    <span><?= $escaper->escapeHtml(__('Add to Compare')) ?></span>
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </li>
+<?php $i++ ?>
+<?php endforeach; ?>
+        </ul>
+    </div>
+</section>
+<?php if ($items->getSize() > 1): ?>
+<script type="text/x-magento-init">
+{
+    "#<?= $block->getProductSliderIdentifier() ?>": {
+        "Mygento_Slider/js/product_slider": {
+            "arrows": <?= ($sliderOptions['options']['arrows'] ?? true) ? 'true' : 'false' ?>,
+            "autoplay": <?= ($sliderOptions['options']['autoplay'] ?? true) ? 'true' : 'false' ?>,
+<?php if (null !== $breakpoints): ?>
+            "breakpoints": <?= $breakpoints ?>,
+<?php endif;?>
+            "pagination": <?= ($sliderOptions['options']['dots'] ?? true) ? 'true' : 'false' ?>,
+            "interval": <?= (int) ($sliderOptions['options']['autoplay_interval'] ?? 4000) ?>,
+            "perMove": <?= (int) ($sliderOptions['options']['per_move'] ?? 1) ?>,
+            "perPage": <?= (int) ($sliderOptions['options']['per_page'] ?? 4) ?>,
+            "type": "<?= ($sliderOptions['options']['infinite'] ?? true) ? 'loop' : 'slide' ?>"
+        }
+    }
+}
+</script>
+<?php
+endif;
+endif;
+?>

@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="mygento_slider_items" resource="default" engine="innodb" comment="Slider Banners Table">
+        <column xsi:type="int" name="slider_id" nullable="false" identity="false" unsigned="true" comment="Slider ID"/>
+        <column xsi:type="int" name="banner_id" nullable="false" identity="false" unsigned="true" comment="Banner ID"/>
+        <column xsi:type="smallint" name="position" nullable="false" identity="false" unsigned="true" comment="Item Position"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="slider_id"/>
+            <column name="banner_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MYG_SLIDE_IT_BANID" table="mygento_slider_items" column="banner_id" referenceTable="mygento_slider_banner" referenceColumn="id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="MYG_SLIDE_IT_SLID" table="mygento_slider_items" column="slider_id" referenceTable="mygento_slider" referenceColumn="id" onDelete="CASCADE"/>
+    </table>
+    <!-- generated -->
+    <table name="mygento_product_slider" resource="default" engine="innodb" comment="Product Slider Table">
+        <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="true" comment="Product Slider ID"/>
+        <column xsi:type="varchar" name="identity" nullable="false" length="255" comment="Identity"/>
+        <column xsi:type="varchar" name="title" nullable="true" length="255" comment="Title"/>
+        <column xsi:type="boolean" name="is_active" nullable="false" default="0" comment="Is_active"/>
+        <column xsi:type="varchar" name="conditions" nullable="false" length="255" comment="Conditions"/>
+        <column xsi:type="json" name="options" nullable="true" comment="Options"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="IX_MYG_PL_ID">
+            <column name="identity"/>
+        </constraint>
+    </table>
+    <table name="mygento_product_slider_store" resource="default" engine="innodb" comment="Product Slider Table With Store">
+        <column xsi:type="int" name="entity_id" nullable="false" identity="false" unsigned="true" comment="Entity ID"/>
+        <column xsi:type="smallint" name="store_id" nullable="false" identity="false" unsigned="true" comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="IX_PRODUCTSLIDER_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="FK_PRODUCTSLIDER_STORE_ID" table="mygento_product_slider_store" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="FK_PRODUCTSLIDER_ENT_ID" table="mygento_product_slider_store" column="entity_id" referenceTable="mygento_product_slider" referenceColumn="id" onDelete="CASCADE"/>
+        <index indexType="btree" referenceId="IX_ENT_ID">
+            <column name="entity_id"/>
+        </index>
+    </table>
+    <table name="mygento_slider" resource="default" engine="innodb" comment="Slider Table">
+        <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="true" comment="Slider ID"/>
+        <column xsi:type="boolean" name="active" nullable="false" default="0" comment="Is active"/>
+        <column xsi:type="varchar" name="identity" nullable="false" length="255" comment="Identity"/>
+        <column xsi:type="varchar" name="title" nullable="true" length="255" comment="Title"/>
+        <column xsi:type="date" name="from_date" nullable="true" comment="From_date"/>
+        <column xsi:type="date" name="to_date" nullable="true" comment="To_date"/>
+        <column xsi:type="json" name="options" nullable="false" comment="Options"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="IX_MYG_SL_ID">
+            <column name="identity"/>
+        </constraint>
+    </table>
+    <table name="mygento_slider_banner" resource="default" engine="innodb" comment="Banner Table">
+        <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="true" comment="Banner ID"/>
+        <column xsi:type="boolean" name="is_active" nullable="false" default="0" comment="Is_active"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="Name"/>
+        <column xsi:type="date" name="from_date" nullable="true" comment="From_date"/>
+        <column xsi:type="date" name="to_date" nullable="true" comment="To_date"/>
+        <column xsi:type="varchar" name="link" nullable="true" length="255" comment="Link"/>
+        <column xsi:type="varchar" name="image" nullable="false" length="255" comment="Image"/>
+        <column xsi:type="varchar" name="small_image" nullable="true" length="255" comment="Small_image"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="mygento_slider_banner_store" resource="default" engine="innodb" comment="Banner Table With Store">
+        <column xsi:type="int" name="entity_id" nullable="false" identity="false" unsigned="true" comment="Entity ID"/>
+        <column xsi:type="smallint" name="store_id" nullable="false" identity="false" unsigned="true" comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="IX_BANNER_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="FK_BANNER_STORE_ID" table="mygento_slider_banner_store" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="FK_BANNER_ENT_ID" table="mygento_slider_banner_store" column="entity_id" referenceTable="mygento_slider_banner" referenceColumn="id" onDelete="CASCADE"/>
+        <index indexType="btree" referenceId="IX_ENT_ID">
+            <column name="entity_id"/>
+        </index>
+    </table>
+</schema>
